@@ -2,7 +2,7 @@
 
 config = {
     github: {
-        user: 'someguy'
-        password: '1234'
+        user: 'someguy',
+        password: '1234',
     }
 }
