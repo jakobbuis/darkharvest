@@ -1,7 +1,7 @@
 # Sinatra endpoint for the AMT API callback
 
-# Define Sinatra app
+require 'sinatra'
 
-# def callback
-    # store in database
-# end
+get '/endpoint' do
+   # Store in database
+end
