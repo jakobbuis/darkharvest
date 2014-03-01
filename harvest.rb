@@ -1,66 +1,107 @@
-# Gather all repositories for Eclipse
+require 'bundler/setup'
 require 'httparty'
 require './config.rb'
+require './database.rb'
+require './models/contributor.rb'
+require './models/repository.rb'
 
 # Basic class for consuming the API
 class GitHub
     include HTTParty
     base_uri 'https://api.github.com'
+    headers 'Accept' => 'application/json', 'User-Agent' => 'jakobbuis/darkharvest'
 
     def initialize(user, pass)
-        @config = {basic_auth: {username: user, password: pass}, headers: {'User-Agent' => 'jakobbuis/darkharvest'}}
+        @config = {basic_auth: {username: user, password: pass}}
     end
 
     # Gather all repositories from GitHub
     # and store them in the local database
     def execute!
-        # Find the Eclipse foundation
-        eclipse = self.class.get('https://api.github.com/orgs/eclipse', @config)
+        unless ARGV.include?('--skip-eclipse-repositories')
+            # Find the Eclipse foundation
+            eclipse = self.class.get('https://api.github.com/orgs/eclipse', @config)
 
-        # Grab each Eclipse repository and store it
-        # repositories = self.class.get(eclipse.repos_url, @config).map! { |r| store_repository r } 
+            # Grab each Eclipse repository and store it
+            grab eclipse['repos_url'] do |repository|
+                store_repository repository
+            end
+        end
 
-        # # Gather the contributors of every repository
-        # repositories.each do |repository|
-        #     # Note: normally, one would call the repository details page (e.g. api.github.com/repos/123)
-        #     # to find the the contributors_url, but that takes an extra request against our rate limit
-        #     # As this study is limited in scope (regarding time), we assume the GitHub API doesn't change
-        #     contributors = self.class.get(repository.url+'/contributors', @config).map! { |c| store_contributor c } 
-        # end
+        unless ARGV.include?('--skip-contributors')
+            # Gather the contributors of every repository
+            puts "Debug: now getting contributors"
+            Repository.all.each do |repository|
+                # Note: normally, one would call the repository details page (e.g. api.github.com/repos/123)
+                # to find the the contributors_url, but that takes an extra request against our rate limit
+                # As this study is limited in scope (regarding time), we assume the GitHub API doesn't change
+                self.class.get("#{repository.url}/contributors", @config).each do |contributor|
+                    store_contributor contributor
+                end
+            end
+        end
 
-        # # Grab all repositories of every contributor
-        # contributors.each do |contributor|
-        #     # Store all repositories of this contributor
-        #     repositories = self.class.get(contributor.repos_url, @config).map! { |r| store_repository r }
-        # end
+        unless ARGV.include?('--skip-contributor-repositories')
+            # Grab all repositories of every contributor
+            Contributor.all.each do |contributor|
+                grab "#{contributor['url']}/repos" do |repository|
+                    store_repository repository
+                end
+            end        
+        end
     end
 
     private 
 
+    # Utility function to deal with pagination
+    def grab (url, &block)
+        page = 1
+        results = []
+        while true
+            puts "Debug: now on #{url} page ##{page}"
+
+            # Grab a page of repositories
+            response = self.class.get(url+'?per_page=100&page='+page.to_s, @config)
+
+            # Stop if the list is empty
+            break if response.count == 0
+
+            # Apply the callback to each elements
+            response.each do |r|
+                block.call(r)
+            end
+            
+            # Continue
+            page += 1
+        end
+    end
+
     # Utility function that stores the relevant data of a repository automatically
     def store_repository repository
-        Repository.find_or_create_by(github_id: repository.id).update_attributes({
-            github_id: repository.id,
-            url: repository.url,
-            name: repository.full_name,
-            description: repository.description,
-        }).save
+        Repository.find_or_initialize_by(github_id: repository['id']).update_attributes({
+            github_id: repository['id'],
+            url: repository['url'],
+            name: repository['full_name'],
+            description: repository['description'],
+        })
     end
 
     # Utility function that stores the relevant data of a contributor automatically
     def store_contributor contributor
-        Contributor.find_or_create_by(github_id: contributor.id).update_attributes({
-            github_id: contributor.id,
-            url: contributor.url,
-            name: contributor.full_name,
-            description: contributor.description,
-        }).save
+        return unless contributor['id'].present? and contributor['url'].present?
+
+        Contributor.find_or_initialize_by(github_id: contributor['id']).update_attributes({
+            github_id: contributor['id'],
+            url: contributor['url'],
+        })
     end
 
     # Override get method to take the rate limiter into account
     def self.get(*args, &block)
         result = super  # Execute the call to find the current rate limit
-        raise 'Close to rate limit' if result.headers['x-ratelimit-remaining'].to_i < 100
+        if result.headers['x-ratelimit-remaining'].to_i < 10
+            raise "Close to the rate limit (#{result.headers['x-ratelimit-remaining']}/#{result.headers['x-ratelimit-limit']})"
+        end
         return result   # Return the original call
     end
 end
