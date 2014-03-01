@@ -63,15 +63,15 @@ class GitHub
             # Grab a page of repositories
             response = self.class.get(url+'?per_page=100&page='+page.to_s, @config)
 
-            # Stop if the list is empty
-            break if response.count == 0
-
             # Apply the callback to each elements
             response.each do |r|
                 block.call(r)
             end
+
+            # Stop if we are at the end of the list
+            break if response.count < 100
             
-            # Continue
+            # else continue
             page += 1
         end
     end
