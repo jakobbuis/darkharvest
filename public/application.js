@@ -16,7 +16,6 @@ function get_repository()
 
 function enact_judgement(event)
 {
-    console.log(event.which);
     var keycode = event.which;
 
     // Do nothing if another key than J, K or L is pressed
