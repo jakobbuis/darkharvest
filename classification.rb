@@ -6,7 +6,7 @@ require './models/contributor.rb'
 require './models/repository.rb'
 
 # Configure ActiveRecord
-ActiveRecord::Base.establish_connection(ENV['HEROKU_POSTGRESQL_TEAL_URL'])
+ActiveRecord::Base.establish_connection(ENV['CLEARDB_DATABASE_URL'])
 ActiveRecord::Base.include_root_in_json = false
 
 # Show main interface
