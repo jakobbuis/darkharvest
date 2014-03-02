@@ -1,0 +1,13 @@
+body {
+    text-align: center;
+}
+
+.repository {
+    width: 50em;
+    margin: 5em auto;
+    border: 2px dashed gray;
+}
+
+.instructions {
+    font-style: italic;
+}

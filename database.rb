@@ -9,3 +9,5 @@ ActiveRecord::Base.establish_connection(
   username: $config[:database][:user],
   password: $config[:database][:password],
 )
+
+ActiveRecord::Base.include_root_in_json = false
