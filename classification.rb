@@ -1,10 +1,12 @@
 # Sinatra endpoint for the AMT API callback
 require 'json'
 require 'sinatra'
-require './config.rb'
-require './database.rb'
+require 'active_record'
 require './models/contributor.rb'
 require './models/repository.rb'
+
+# Do not send root json
+ActiveRecord::Base.include_root_in_json = false
 
 # Show main interface
 get '/' do
