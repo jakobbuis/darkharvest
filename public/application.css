@@ -1,13 +1,8 @@
-body {
-    text-align: center;
+td {
+    padding: 1em;
 }
 
-.repository {
-    width: 50em;
-    margin: 5em auto;
-    border: 2px dashed gray;
-}
-
-.instructions {
-    font-style: italic;
-}
+tr { background-color: #3498db; }               /* Everything classified as not eclipse is blue */
+tr.eclipse { background-color: #2ecc71; }       /* Eclipse repositories are green*/
+tr.duplicate { background-color: #e74c3c; }     /* Duplicates are red */
+tr.unknown { background-color: white; }         /* Everything unknown is white */
