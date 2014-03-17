@@ -13,7 +13,6 @@ counts = Hash.new(0)
 Repository.unknown.each do |repo|
     # Count name words
     name = repo.name.split('/')
-    counts[name[0]] += 1
     counts[name[1]] += 1
 
     # Count description words
