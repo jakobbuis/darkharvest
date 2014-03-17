@@ -18,6 +18,7 @@ Repository.unknown.each do |repo|
     # Count description words
     next if repo.description.nil?
     repo.description.split(' ').each do |word|
+        next if word.length < 3
         counts[word] += 1
     end
 end
