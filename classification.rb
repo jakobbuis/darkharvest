@@ -28,7 +28,7 @@ ecosystems = {
 
     # Tech organisations
     google: [:android, :google, :chrome],
-    apple: [:apple, :ios, :mac, :iphone, :osx, 'OS X'],
+    apple: [:apple, :ios, :mac, :iphone, :ipod, :osx, 'OS X'],
     apache: [:apache, :tomcat, :maven],
     mozilla: [:mozilla, :firefox, :thunderbird, :bugzilla, :firebug, :gecko],
     microsoft: [:microsoft, :windows, :office, :word, :powerpoint, :excel, :msn, :visio, :outlook, :onenote, :access, :infopath, :publisher, :lync, :frontpage, :sharepoint],
@@ -47,7 +47,7 @@ ecosystems = {
     python: [:pytjon, :pycon],
     
     # Other ecosystems
-    linux: [:linux, :ubuntu, :redhat, :gnome, :suse, :fedora],
+    linux: [:linux, :ubuntu, :redhat, :gnome, :suse, :fedora, :jboss],
     social: [:twitter, :facebook, :linkedin, :pinterest, 'google plus', :tumblr, :instagram, :flickr, :myspace, :askfm, 'ask.fm', :meetup, :meetme, :classmates],
     sysadmin: [:chef, :cookbook, :puppet, :jenkins, :cruisecontrol, :capistrano, :teamcity],
     compiler: [:compiler],
