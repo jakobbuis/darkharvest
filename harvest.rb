@@ -35,8 +35,9 @@ class GitHub
                 # Note: normally, one would call the repository details page (e.g. api.github.com/repos/123)
                 # to find the the contributors_url, but that takes an extra request against our rate limit
                 # As this study is limited in scope (regarding time), we assume the GitHub API doesn't change
-                self.class.get("#{repository.url}/contributors", @config).each do |contributor|
-                    store_contributor contributor
+                self.class.get("#{repository.url}/contributors", @config).each do |c|
+                    contributor = store_contributor c
+                    store_work(contributor, repository) if contributor && repository
                 end
             end
         end
@@ -44,8 +45,9 @@ class GitHub
         unless ARGV.include?('--skip-contributor-repositories')
             # Grab all repositories of every contributor
             Contributor.all.each do |contributor|
-                grab "#{contributor['url']}/repos" do |repository|
-                    store_repository repository
+                grab "#{contributor['url']}/repos" do |r|
+                    repository = store_repository r
+                    store_work(contributor, repository) if contributor && repository
                 end
             end        
         end
@@ -77,23 +79,33 @@ class GitHub
     end
 
     # Utility function that stores the relevant data of a repository automatically
-    def store_repository repository
-        Repository.find_or_initialize_by(github_id: repository['id']).update_attributes({
-            github_id: repository['id'],
-            url: repository['url'],
-            name: repository['full_name'],
-            description: repository['description'],
+    def store_repository data
+        repository = Repository.find_or_initialize_by(github_id: data['id'])
+        repository.update_attributes({
+            github_id: data['id'],
+            url: data['url'],
+            name: data['full_name'],
+            description: data['description'],
         })
+        repository
     end
 
     # Utility function that stores the relevant data of a contributor automatically
-    def store_contributor contributor
-        return unless contributor['id'].present? and contributor['url'].present?
+    def store_contributor data
+        return nil unless data['id'].present? and data['url'].present?
 
-        Contributor.find_or_initialize_by(github_id: contributor['id']).update_attributes({
-            github_id: contributor['id'],
-            url: contributor['url'],
+        contributor = Contributor.find_or_initialize_by(github_id: data['id'])
+        contributor.update_attributes({
+            github_id: data['id'],
+            url: data['url'],
         })
+        contributor
+    end
+
+    # Utility functions that stores the relationship between a contributor and a repository
+    def store_work contributor, repository
+        repository.contributors << contributor
+        repository.save
     end
 
     # Override get method to take the rate limiter into account

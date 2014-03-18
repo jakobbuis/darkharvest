@@ -2,6 +2,8 @@ require 'active_record'
 
 class Repository < ActiveRecord::Base
 
+    has_and_belongs_to_many :contributors
+
     def self.random n = 100
         order('RAND()').limit(n)
     end
