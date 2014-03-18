@@ -16,7 +16,7 @@ print 'Classifying...'
 # Ecosystem/keyword index
 # Less specific keywords go to the back
 ecosystems = {
-    eclipse: [:eclipse, :mylyn],
+    eclipse: [:eclipse, :mylyn, :orion],
 
     # Editors
     sublime: [:sublime, :emmet],
@@ -26,33 +26,34 @@ ecosystems = {
     intellij: [:intellij],
     textmate: [:textmate],
 
-    # Tech organisations
-    google: [:android, :google, :chrome],
-    apple: [:apple, :ios, :mac, :iphone, :ipod, :osx, 'OS X'],
-    apache: [:apache, :tomcat, :maven],
-    mozilla: [:mozilla, :firefox, :thunderbird, :bugzilla, :firebug, :gecko],
-    microsoft: [:microsoft, :windows, :office, :word, :powerpoint, :excel, :msn, :visio, :outlook, :onenote, :access, :infopath, :publisher, :lync, :frontpage, :sharepoint],
-    amazon: [:amazon],
+    # # Tech organisations
+    # google: [:android, :google, :chrome],
+    # apple: [:apple, :ios, :mac, :iphone, :ipod, :osx, 'OS X'],
+    # apache: [:apache, :tomcat, :maven],
+    # mozilla: [:mozilla, :firefox, :thunderbird, :bugzilla, :firebug, :gecko],
+    # microsoft: [:microsoft, :windows, :office, :word, :powerpoint, :excel, :msn, :visio, :outlook, :onenote, :access, :infopath, :publisher, :lync, :frontpage, :sharepoint],
+    # amazon: [:amazon],
 
-    # Code ecosystems
-    ruby: [:ruby, :rails, :rspec, :sinatra, :nokogiri, :rake, :redmine, :rack, :jekyll, :minitest],
-    node: [:node, :npm],
-    javascript: [:javascript, :jquery, :ember, :angular, :kendo, :backbone, :handlebars, :mustache, :greasemonkey, :js, :coffeescript, :grunt, :yeoman],
-    erlang: [:erlang, :otp],
-    css: [:css, :less, :scss],
-    unix: [:unix, :gnu],
-    java: [:java, :spring, :scala, :play, :jvm],
-    django: [:django],
-    php: [:php, :cakephp, :kohana, :laravel, :zend, :yii, :codeigniter, :symfony, :prado, :akelos, :phpdevshell],
-    python: [:pytjon, :pycon],
+    # # Code ecosystems
+    # ruby: [:ruby, :rails, :rspec, :sinatra, :nokogiri, :rake, :redmine, :rack, :jekyll, :minitest],
+    # node: [:node, :npm],
+    # javascript: [:javascript, :jquery, :ember, :angular, :kendo, :backbone, :handlebars, :mustache, :greasemonkey, :js, :coffeescript, :grunt, :yeoman],
+    # erlang: [:erlang, :otp],
+    # css: [:css, :less, :scss],
+    # unix: [:unix, :gnu],
+    # java: [:java, :spring, :scala, :play, :jvm],
+    # django: [:django],
+    # php: [:php, :cakephp, :kohana, :laravel, :zend, :yii, :codeigniter, :symfony, :prado, :akelos, :phpdevshell],
+    # python: [:pytjon, :pycon],
+    # clojure: [:clojure],
     
-    # Other ecosystems
-    linux: [:linux, :ubuntu, :redhat, :gnome, :suse, :fedora, :jboss],
-    social: [:twitter, :facebook, :linkedin, :pinterest, 'google plus', :tumblr, :instagram, :flickr, :myspace, :askfm, 'ask.fm', :meetup, :meetme, :classmates],
-    sysadmin: [:chef, :cookbook, :puppet, :jenkins, :cruisecontrol, :capistrano, :teamcity],
-    compiler: [:compiler],
-    git: [:git],
-    databases: [:sql, :nosql, :riak, :voldemort, :hadoop, :hbase, :cassandra, :mongodb, :couchbase, :couchdb, :azure, :redis, :memcache, :neo4j],
+    # # Other ecosystems
+    # linux: [:linux, :ubuntu, :redhat, :gnome, :suse, :fedora, :jboss],
+    # social: [:twitter, :facebook, :linkedin, :pinterest, 'google plus', :tumblr, :instagram, :flickr, :myspace, :askfm, 'ask.fm', :meetup, :meetme, :classmates],
+    # sysadmin: [:chef, :cookbook, :puppet, :jenkins, :cruisecontrol, :capistrano, :teamcity, :hudson],
+    # compiler: [:compiler],
+    # git: [:git],
+    # databases: [:sql, :nosql, :riak, :voldemort, :hadoop, :hbase, :cassandra, :mongodb, :couchbase, :couchdb, :azure, :redis, :memcache, :neo4j],
 
     # Removes entries which are a duplicate of other repositories
     duplicate: [:mirror, :clone, :fork],
