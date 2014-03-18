@@ -16,6 +16,10 @@ print 'Classifying...'
 # Ecosystem/keyword index
 # Less specific keywords go to the back
 ecosystems = {
+    # Removes entries which are a duplicate of other repositories
+    duplicate: [:mirror, :clone, :fork],
+
+    # Eclipse projects
     eclipse: [:eclipse, :mylyn, :orion],
 
     # Editors
@@ -55,8 +59,6 @@ ecosystems = {
     # git: [:git],
     # databases: [:sql, :nosql, :riak, :voldemort, :hadoop, :hbase, :cassandra, :mongodb, :couchbase, :couchdb, :azure, :redis, :memcache, :neo4j],
 
-    # Removes entries which are a duplicate of other repositories
-    duplicate: [:mirror, :clone, :fork],
     # Empty placeholder for unclassified repositories; do not add any keywords
     unknown: []
 }
