@@ -6,7 +6,7 @@ require './models/repository.rb'
 
 # Show main interface
 get '/classified/:count' do |count|
-    @repositories = Repository.known.random(count)
+    @repositories = Repository.known.not_duplicate.random(count)
     erb :index
 end
 

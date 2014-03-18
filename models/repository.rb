@@ -6,6 +6,10 @@ class Repository < ActiveRecord::Base
         order('RAND()').limit(n)
     end
 
+    def self.not_duplicate
+        where.not(classification: :duplicate)
+    end
+
     def self.known
         where.not(classification: :unknown)
     end
