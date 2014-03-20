@@ -104,6 +104,10 @@ class GitHub
 
     # Utility functions that stores the relationship between a contributor and a repository
     def store_work contributor, repository
+        # Do not save if the association exists already
+        return if repository.contributors.where(id: contributor.id).exists?
+
+        # Store otherwise
         repository.contributors << contributor
         repository.save
     end
