@@ -19,4 +19,8 @@ class Repository < ActiveRecord::Base
     def self.unknown
         where(classification: :unknown)
     end
+
+    def self.of_interest
+        where('classification NOT IN (?)', [:duplicate, :unknown]).order(:id)
+    end
 end

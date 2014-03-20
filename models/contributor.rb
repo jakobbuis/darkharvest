@@ -6,6 +6,6 @@ class Contributor < ActiveRecord::Base
 
     # Return all eclipse developers which work on another IDE too
     def self.multihomers
-        includes(:repositories).where(repositories: {classification: [:sublime, :visualstudio, :vim, :aptana, :intellij, :textmate]})
+        joins(:repositories).where(repositories: {classification: [:sublime, :visualstudio, :vim, :aptana, :intellij, :textmate]})
     end
 end
