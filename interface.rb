@@ -3,14 +3,20 @@ require 'json'
 require 'sinatra'
 require './database'
 require './models/repository.rb'
+require './models/contributor.rb'
 
 # Show main interface
 get '/classified/:count' do |count|
     @repositories = Repository.known.not_duplicate.random(count)
-    erb :index
+    erb :validation
 end
 
 get '/unknown' do
     @repositories = Repository.unknown
-    erb :index
+    erb :validation
+end
+
+get '/results' do
+    @contributors = Contributor.multihomers
+    erb :results
 end

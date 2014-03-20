@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Eclipse classification project</title>
+
+    <link rel="stylesheet" type="text/css" href="/application.css">
+</head>
+<body>
+    <h1>Results</h1>
+    <%= @contributors.count %> multihomers found
+    <table>
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>URL</th>
+                <th>Projects</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @contributors.each do |r| %>
+            <% end %> 
+        </tbody>
+    </table>
+</body>
+</html>

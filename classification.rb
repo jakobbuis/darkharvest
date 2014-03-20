@@ -24,7 +24,7 @@ ecosystems = {
 
     # Editors
     sublime: [:sublime, :emmet],
-    visualstudio: [:visual, :studio],
+    visualstudio: ['visual studio'],
     vim: [:vim],
     aptana: [:aptana],
     intellij: [:intellij],
